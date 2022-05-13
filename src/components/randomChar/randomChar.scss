@@ -15,6 +15,9 @@
         height: 180px;
         object-fit: cover;
     }
+    &__img-char{
+        object-fit: contain;
+    }
     &__info {
         display: grid;
         grid-template-rows: minmax(29px, auto) 90px 38px;
@@ -63,4 +66,7 @@
 #triangle{
     margin: 0 auto;
     padding-top: 15px;
+    }
+.cover {
+    object-fit: contain;
 }

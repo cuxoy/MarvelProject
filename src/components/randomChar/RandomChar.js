@@ -6,10 +6,7 @@ import MarvelService from "../../services/MarvelService";
 import mjolnir from "../../resources/img/mjolnir.png";
 
 class RandomChar extends Component {
-  constructor(props) {
-    super(props);
-    this.updateChar();
-  }
+
   state = {
     char: {},
     loading: true,
@@ -20,6 +17,15 @@ class RandomChar extends Component {
   onCharLoaded = (char) => {
     this.setState({ char, loading: false });
   };
+
+  componentDidMount(){
+    this.updateChar();
+  }
+
+  onUpdate = ()=> {
+    this.updateChar();
+  }
+
 
   onError = () => {
     this.setState({
@@ -33,7 +39,8 @@ class RandomChar extends Component {
     this.marvelService
       .getCharacter(id)
       .then(this.onCharLoaded)
-      .catch(this.onError);
+      .catch(this.onError)
+      
   };
 
   render() {
@@ -41,8 +48,7 @@ class RandomChar extends Component {
       char,
       loading,
       error,
-      char: { description },
-    } = this.state;
+    } = this.state
 
     const errorMassage = error ? <ErrorMassage /> : null;
     const loadingMassage = loading ? (
@@ -50,12 +56,6 @@ class RandomChar extends Component {
     ) : null;
     const content = !(error || loading) ?  <View char={char} /> : null;
 
-    description = String(description);
-    if (description == "") {
-      description += "No description yet";
-    } else if (description.length > 230) {
-      description = description.slice(0, 230) + "...";
-    }
     return (
       <div className="randomchar">
         {errorMassage}
@@ -69,7 +69,7 @@ class RandomChar extends Component {
           </p>
           <p className="randomchar__title">Or choose another one</p>
           <button className="button button__main">
-            <div className="inner">try it</div>
+            <div className="inner" onClick={this.onUpdate}>try it</div>
           </button>
           <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
         </div>
@@ -78,10 +78,21 @@ class RandomChar extends Component {
   }
 }
 const View = ({ char }) => {
-  const { name, description, thumbnail, wiki, homepage } = char;
+  let { name, description, thumbnail, wiki, homepage } = char ;
+  let randomImgClass = "randomchar__img"
+
+  if (description.length<=1) {
+    description += "No description yet";
+  } else if (description.length > 200) {
+    description = description.slice(0, 200) + "...";
+  }
+
+  if(thumbnail =="http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"){
+       randomImgClass += " cover"
+  }
   return (
     <div className="randomchar__block">
-      <img src={thumbnail} alt="Random character" className="randomchar__img" />
+      <img src={thumbnail} alt="Random character" className={randomImgClass} />
       <div className="randomchar__info">
         <p className="randomchar__name">{name}</p>
         <p className="randomchar__descr">{description}</p>
