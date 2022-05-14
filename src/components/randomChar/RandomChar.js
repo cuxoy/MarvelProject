@@ -6,7 +6,6 @@ import MarvelService from "../../services/MarvelService";
 import mjolnir from "../../resources/img/mjolnir.png";
 
 class RandomChar extends Component {
-
   state = {
     char: {},
     loading: true,
@@ -18,14 +17,13 @@ class RandomChar extends Component {
     this.setState({ char, loading: false });
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.updateChar();
   }
 
-  onUpdate = ()=> {
+  onUpdate = () => {
     this.updateChar();
-  }
-
+  };
 
   onError = () => {
     this.setState({
@@ -39,22 +37,17 @@ class RandomChar extends Component {
     this.marvelService
       .getCharacter(id)
       .then(this.onCharLoaded)
-      .catch(this.onError)
-      
+      .catch(this.onError);
   };
 
   render() {
-    let {
-      char,
-      loading,
-      error,
-    } = this.state
+    let { char, loading, error } = this.state;
 
     const errorMassage = error ? <ErrorMassage /> : null;
     const loadingMassage = loading ? (
       <Triangle height="200" width="200" color="red" />
     ) : null;
-    const content = !(error || loading) ?  <View char={char} /> : null;
+    const content = !(error || loading) ? <View char={char} /> : null;
 
     return (
       <div className="randomchar">
@@ -69,7 +62,9 @@ class RandomChar extends Component {
           </p>
           <p className="randomchar__title">Or choose another one</p>
           <button className="button button__main">
-            <div className="inner" onClick={this.onUpdate}>try it</div>
+            <div className="inner" onClick={this.onUpdate}>
+              try it
+            </div>
           </button>
           <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
         </div>
@@ -78,17 +73,20 @@ class RandomChar extends Component {
   }
 }
 const View = ({ char }) => {
-  let { name, description, thumbnail, wiki, homepage } = char ;
-  let randomImgClass = "randomchar__img"
+  let { name, description, thumbnail, wiki, homepage } = char;
+  let randomImgClass = "randomchar__img";
 
-  if (description.length<=1) {
+  if (description.length <= 1) {
     description += "No description yet";
   } else if (description.length > 200) {
     description = description.slice(0, 200) + "...";
   }
 
-  if(thumbnail =="http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"){
-       randomImgClass += " cover"
+  if (
+    thumbnail ==
+    "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
+  ) {
+    randomImgClass += " cover";
   }
   return (
     <div className="randomchar__block">
