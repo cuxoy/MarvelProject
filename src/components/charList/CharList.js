@@ -10,24 +10,34 @@ class CharList extends Component {
     char: [],
     loading: true,
     error: false,
+    offsetChar: Math.floor(Math.random() * (1550 - 0) + 0)
   };
 
   marvelService = new MarvelService();
 
   componentDidMount() {
-    this.updateChar();
+    this.updateChar();  
+  }
+
+  onRequest = (offset) =>{
+    this.marvelService.getAllCharacters(offset)
+    .then(this.onCharLoaded)
+    .catch(this.error)
   }
 
   updateChar = () => {
-    // const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
     this.marvelService
       .getAllCharacters()
       .then(this.onCharLoaded)
       .catch(this.onError);
   };
 
-  onCharLoaded = (char) => {
-    this.setState({ char, loading: false });
+  onCharLoaded = (newChar) => {
+    this.setState(({char,offsetChar})=>({
+       char:[...char, ...newChar],
+        loading: false,
+        offsetChar: offsetChar +9 
+    }));
   };
 
   onError = () => {
@@ -38,7 +48,7 @@ class CharList extends Component {
   };
 
   render() {
-    const { char, error, loading } = this.state;
+    const { char, error, loading, offsetChar} = this.state;
     const errorMassage = error ? <ErrorMassage /> : null;
     const loadingMassage = loading ? (
       <BallTriangle height="200" width="200" color="red" />
@@ -71,7 +81,8 @@ class CharList extends Component {
     return (
       <div className="char__list">
         <ul className="char__grid">{charItem}</ul>
-        <button className="button button__main button__long">
+        <button className="button button__main button__long" 
+        onClick={()=>this.onRequest(offsetChar)}>
           <div className="inner">load more</div>
         </button>
       </div>
