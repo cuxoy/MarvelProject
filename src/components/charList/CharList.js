@@ -1,54 +1,48 @@
-import { Component } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BallTriangle } from "react-loader-spinner";
 import ErrorMassage from "../errorMassage/ErrorMassage";
 import MarvelService from "../../services/MarvelService";
 
 import "./charList.scss";
 
-class CharList extends Component {
-  state = {
-    char: [],
-    loading: true,
-    error: false,
-    offsetChar: Math.floor(Math.random() * (1550 - 0) + 0)
-  };
+const CharList = (props)=> {
 
-  marvelService = new MarvelService();
+  const [char,setChar] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState (false)
+  const [offsetChar, setOffsetChar] = useState( Math.floor(Math.random() * (1550 - 0) + 0))
 
-  componentDidMount() {
-    this.updateChar();  
+ const marvelService = new MarvelService();
+
+useEffect(()=>{
+  updateChar()
+},[])
+
+ const onRequest = (offset) =>{
+    marvelService.getAllCharacters(offset)
+    .then(onCharLoaded)
+    .catch(error)
   }
 
-  onRequest = (offset) =>{
-    this.marvelService.getAllCharacters(offset)
-    .then(this.onCharLoaded)
-    .catch(this.error)
-  }
-
-  updateChar = () => {
-    this.marvelService
+ const updateChar = () => {
+    marvelService
       .getAllCharacters()
-      .then(this.onCharLoaded)
-      .catch(this.onError);
+      .then(onCharLoaded)
+      .catch(onError);
   };
 
-  onCharLoaded = (newChar) => {
-    this.setState(({char,offsetChar})=>({
-       char:[...char, ...newChar],
-        loading: false,
-        offsetChar: offsetChar +9 
-    }));
+ const onCharLoaded = (newChar) => {
+
+    setChar(char=> [...char, ...newChar])
+    setLoading(false)
+    setOffsetChar(offsetChar => offsetChar + 9)
   };
 
-  onError = () => {
-    this.setState({
-      loading: false,
-      error: true,
-    });
-  };
+ const onError = () => {
 
-  render() {
-    const { char, error, loading, offsetChar} = this.state;
+    setLoading(false)
+    setError(true)
+  };
     const errorMassage = error ? <ErrorMassage /> : null;
     const loadingMassage = loading ? (
       <BallTriangle height="200" width="200" color="red" />
@@ -67,7 +61,7 @@ class CharList extends Component {
         <li
           className="char__item"
           key={item.id}
-          onClick={() => this.props.onCharSelected(item.id)}
+          onClick={() => props.onCharSelected(item.id)}
         >
           <img src={item.thumbnail} alt={item.name} style={imgStyle} />
           <div className="char__name">{item.name}</div>
@@ -82,12 +76,12 @@ class CharList extends Component {
       <div className="char__list">
         <ul className="char__grid">{charItem}</ul>
         <button className="button button__main button__long" 
-        onClick={()=>this.onRequest(offsetChar)}>
+        onClick={()=> onRequest(offsetChar)}>
           <div className="inner">load more</div>
         </button>
       </div>
     );
-  }
+  
 }
 
 export default CharList;

@@ -1,8 +1,9 @@
 
 class MarvelService {
     _apiBase = 'https://gateway.marvel.com:443/v1/public/';
-    _apiKey = 'apikey=53fa4d2285b861097b61ec23f4943d33'
+    _apiKey = 'apikey=53fa4d2285b861097b61ec23f4943d33';
     randomInt =  Math.floor(Math.random() * (1550 - 0) + 0)
+
     getResource = async (url) =>{
         let res = await fetch(url)
 
