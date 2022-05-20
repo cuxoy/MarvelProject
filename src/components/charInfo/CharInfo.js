@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MarvelService from "../../services/MarvelService";
+import useMarvelService from "../../services/MarvelService";
 import { Triangle } from "react-loader-spinner";
 import Skeleton from "../skeleton/Skeleton";
 import ErrorMassage from "../errorMassage/ErrorMassage";
@@ -7,22 +7,15 @@ import "./charInfo.scss";
 
 const CharInfo = (props) => {
   const [char, setChar] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
-  const marvelService = new MarvelService();
+  const {error, loading, getCharacter}= useMarvelService();
+
   useEffect(() => {
     updateChar();
   }, [props.charId]);
 
   const onCharLoaded = (char) => {
     setChar(char);
-    setLoading(false);
-  };
-
-  const onError = () => {
-    setLoading(false);
-    setError(true);
   };
 
   const updateChar = () => {
@@ -30,7 +23,7 @@ const CharInfo = (props) => {
     if (!charId) {
       return;
     }
-    marvelService.getCharacter(charId).then(onCharLoaded).catch(onError);
+getCharacter(charId).then(onCharLoaded)
   };
 
   const errorMassage = error ? <ErrorMassage /> : null;

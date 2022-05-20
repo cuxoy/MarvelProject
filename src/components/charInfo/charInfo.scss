@@ -17,6 +17,18 @@
             margin-top: 30px;
         }
     }
+    &__item:hover{
+        // transform: translateY(-5px);
+        // border: 2px solid red;
+        box-shadow: 4px 4px 4px 4px rgba(255, 3, 3, 0.878);
+
+    }
+    &__item:focus{
+        // transform: translateY(-5px);
+        border: 2px solid red;
+        box-shadow: 4px 4px 4px rgba(255, 3, 3, 0.878);
+
+    }
     &__basics {
         display: grid;
         grid-template-columns: 150px auto;

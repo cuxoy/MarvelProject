@@ -31,6 +31,15 @@
         }
         &:hover {
             transform: translateY(-5px);
+            border: 2px solid red;
+        }
+        &:focus{
+            transform: translateY(-5px);
+            border: 2px solid red;
         }
     }
+}
+.char__item:hover{
+    transform: translateY(-5px);
+    border: 2px solid red;
 }

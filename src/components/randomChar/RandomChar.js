@@ -2,37 +2,26 @@ import { useState, useEffect } from "react";
 import { Triangle } from "react-loader-spinner";
 import ErrorMassage from "../errorMassage/ErrorMassage";
 import "./randomChar.scss";
-import MarvelService from "../../services/MarvelService";
+import useMarvelService from "../../services/MarvelService";
 import mjolnir from "../../resources/img/mjolnir.png";
 
 const RandomChar = () => {
-  // state = {
-  //   char: {},
-  //   loading: true,
-  //   error: false,
-  // };
-  const [char, setChar] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
-  const marvelService = new MarvelService();
+  const [char, setChar] = useState({});
+
+  const{loading, error, getCharacter, clearError} = useMarvelService();
 
   const onCharLoaded = (char) => {
     setChar(char);
-    setLoading(false);
   };
   useEffect(() => {
     updateChar();
   }, []);
 
-  const onError = () => {
-    setLoading(false);
-    setError(true);
-  };
-
   const updateChar = () => {
+    clearError();
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-    marvelService.getCharacter(id).then(onCharLoaded).catch(onError);
+   getCharacter(id).then(onCharLoaded)
   };
 
   const errorMassage = error ? <ErrorMassage /> : null;
@@ -40,6 +29,7 @@ const RandomChar = () => {
     <Triangle height="200" width="200" color="red" />
   ) : null;
   const content = !(error || loading) ? <View char={char} /> : null;
+
 
   return (
     <div className="randomchar">
@@ -67,10 +57,10 @@ const View = ({ char }) => {
   let { name, description, thumbnail, wiki, homepage } = char;
   let randomImgClass = "randomchar__img";
 
-  if (description.length <= 1) {
+  if (description&&description.length <= 1) {
     description += "No description yet";
-  } else if (description.length > 200) {
-    description = description.slice(0, 200) + "...";
+  } else if (description&&description.length > 200) {
+    description = description.slice(0, 200  ) + "...";
   }
 
   if (

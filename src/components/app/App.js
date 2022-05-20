@@ -20,7 +20,7 @@ const App = () => {
           <CharList onCharSelected={onCharSelected} />
           <CharInfo charId={selectedChar} />
         </div>
-        <img className="bg-decoration" src={decoration} alt="vision" />
+        <img className="bg-decorat  ion" src={decoration} alt="vision" />
       </main>
     </div>
   );
