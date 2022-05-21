@@ -11,13 +11,13 @@ const CharList = (props)=> {
 
   const [offsetChar, setOffsetChar] = useState( Math.floor(Math.random() * (1550 - 0) + 0))
 
- const {error, loading, getAllCharacters }=  useMarvelService();
+  const {error, loading, getAllCharacters, getAllComics }=  useMarvelService();
 
 useEffect(()=>{
   updateChar()
 },[])
 
- const onRequest = (offset, initial) =>{
+ const onRequest = (offset) =>{
     getAllCharacters(offset)
     .then(onCharLoaded)
   }
@@ -32,6 +32,7 @@ useEffect(()=>{
     setOffsetChar(offsetChar => offsetChar + 9)
   };
 
+  
     const errorMassage = error ? <ErrorMassage /> : null;
     const loadingMassage = loading ? (
       <BallTriangle height="200" width="200" color="red" />
