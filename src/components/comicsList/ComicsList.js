@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { BallTriangle } from "react-loader-spinner";
 import ErrorMassage from "../errorMassage/ErrorMassage";
 import "./comicsList.scss";
-import uw from "../../resources/img/UW.png";
-import xMen from "../../resources/img/x-men.png";
 import useMarvelService from "../../services/MarvelService";
 
 const ComicsList = () => {
@@ -11,20 +9,21 @@ const ComicsList = () => {
 
   const [comicsList, setComicsList] = useState([]);
 
-  const [offsetComicsList, setOffsetComicsList] = useState(Math.floor(Math.random() * (52071 - 0) + 0));
+  const [offsetComicsList, setOffsetComicsList] = useState(
+    Math.floor(Math.random() * (52071 - 0) + 0)
+  );
 
   useEffect(() => {
     onRequest();
   }, []);
 
-   const onRequest = () =>{
-    getAllComics(offsetComicsList)
-    .then(onComicsListLoaded);
-   }
+  const onRequest = () => {
+    getAllComics(offsetComicsList).then(onComicsListLoaded);
+  };
 
   const onComicsListLoaded = (newComicsList) => {
     setComicsList((comicsList) => [...comicsList, ...newComicsList]);
-    setOffsetComicsList(offsetComicsList => (offsetComicsList + 8))
+    setOffsetComicsList((offsetComicsList) => offsetComicsList + 8);
   };
 
   let comics = [];
@@ -56,9 +55,7 @@ const ComicsList = () => {
         {loadingMassage}
         {items}
       </ul>
-      <button
-      onClick = {onRequest}
-       className="button button__main button__long">
+      <button onClick={onRequest} className="button button__main button__long">
         <div className="inner">load more</div>
       </button>
     </div>
