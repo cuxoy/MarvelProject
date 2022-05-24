@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { BallTriangle } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 import ErrorMassage from "../errorMassage/ErrorMassage";
 import "./comicsList.scss";
 import useMarvelService from "../../services/MarvelService";
@@ -32,10 +33,10 @@ const ComicsList = () => {
   const loadingMassage = loading ? (
     <BallTriangle height="200" width="200" color="red" />
   ) : null;
-  let items = comics.map((item, i) => {
+  let items = comics.map((item) => {
     return (
-      <li className="comics__item" key={i}>
-        <a href={item.homepage}>
+      <li className="comics__item" key={item.id}>
+        <Link to ={`/comics/${item.id}`}>
           <img
             src={item.thumbnail}
             alt={item.name}
@@ -43,7 +44,7 @@ const ComicsList = () => {
           />
           <div className="comics__item-name">{item.name}</div>
           <div className="comics__item-price">{item.price}</div>
-        </a>
+        </Link>
       </li>
     );
   });
