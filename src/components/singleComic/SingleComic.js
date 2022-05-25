@@ -5,7 +5,6 @@ import { Triangle } from "react-loader-spinner";
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import xMen from "../../resources/img/x-men.png";
 
 const SingleComic = () => {
   const { comicsId } = useParams();
@@ -42,8 +41,9 @@ const SingleComic = () => {
 
 const Viev = ({ comics }) => {
   if (comics) {
+      console.log(comics);
     let { thumbnail, id, description, name, price, pages } = comics;
-        if(description.length<1){
+        if(!description){
             description = 'No description yet'
         }
     return (

@@ -1,5 +1,5 @@
 import ErrorMassage from "../errorMassage/ErrorMassage";
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import { NavLink } from "react-router-dom";
 
 const Page404 = () =>{
     return(

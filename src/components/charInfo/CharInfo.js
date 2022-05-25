@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useMarvelService from "../../services/MarvelService";
 import { Triangle } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 import Skeleton from "../skeleton/Skeleton";
 import ErrorMassage from "../errorMassage/ErrorMassage";
 import "./charInfo.scss";
