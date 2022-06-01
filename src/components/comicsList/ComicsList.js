@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { BallTriangle } from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import ErrorMassage from "../errorMassage/ErrorMassage";
 import "./comicsList.scss";
 import useMarvelService from "../../services/MarvelService";
@@ -35,27 +36,29 @@ const ComicsList = () => {
   ) : null;
   let items = comics.map((item) => {
     return (
-      <li className="comics__item" key={item.id}>
-        <Link to ={`/comics/${item.id}`}>
-          <img
-            src={item.thumbnail}
-            alt={item.name}
-            className="comics__item-img"
-          />
-          <div className="comics__item-name">{item.name}</div>
-          <div className="comics__item-price">{item.price}</div>
-        </Link>
-      </li>
+      <CSSTransition timeout={900} classNames="my-node">
+        <li className="comics__item" key={item.id}>
+          <Link to={`/comics/${item.id}`}>
+            <img
+              src={item.thumbnail}
+              alt={item.name}
+              className="comics__item-img"
+            />
+            <div className="comics__item-name">{item.name}</div>
+            <div className="comics__item-price">{item.price}</div>
+          </Link>
+        </li>
+      </CSSTransition>
     );
   });
 
   return (
     <div className="comics__list">
-      <ul className="comics__grid">
-        {errorMassage}
-        {loadingMassage}
+      {errorMassage}
+      {loadingMassage}
+      <TransitionGroup component={"ul"} className="comics__grid">
         {items}
-      </ul>
+      </TransitionGroup>
       <button onClick={onRequest} className="button button__main button__long">
         <div className="inner">load more</div>
       </button>

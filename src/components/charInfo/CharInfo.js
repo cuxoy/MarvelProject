@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useMarvelService from "../../services/MarvelService";
 import { Triangle } from "react-loader-spinner";
-import { Link } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
 import Skeleton from "../skeleton/Skeleton";
 import ErrorMassage from "../errorMassage/ErrorMassage";
 import "./charInfo.scss";
@@ -9,7 +9,7 @@ import "./charInfo.scss";
 const CharInfo = (props) => {
   const [char, setChar] = useState(null);
 
-  const {error, loading, getCharacter}= useMarvelService();
+  const { error, loading, getCharacter } = useMarvelService();
 
   useEffect(() => {
     updateChar();
@@ -24,7 +24,7 @@ const CharInfo = (props) => {
     if (!charId) {
       return;
     }
-getCharacter(charId).then(onCharLoaded)
+    getCharacter(charId).then(onCharLoaded);
   };
 
   const errorMassage = error ? <ErrorMassage /> : null;
@@ -34,12 +34,15 @@ getCharacter(charId).then(onCharLoaded)
   const content = !(error || loading || !char) ? <View char={char} /> : null;
 
   const skeleton = char || loading || error ? null : <Skeleton />;
+  let transitionIn = content ? true: false
   return (
     <div className="char__info">
       {skeleton}
       {loadingMassage}
       {errorMassage}
-      {content}
+      <CSSTransition in={transitionIn} timeout={1500} classNames='my-node'>
+        <>{content}</>
+      </CSSTransition>
     </div>
   );
 };

@@ -8,7 +8,7 @@
     align-items: start;
     &__img {
         width: 293px;
-        height: 450px;
+        height: auto;
     }
     &__name {
         font-weight: bold;
@@ -36,4 +36,21 @@
             color: $main-color;
         }
     }
+}
+.my-node-enter {
+  opacity: 0;
+
+}
+.my-node-enter-active {
+  opacity: 1;
+  transition: all 900ms;
+  
+}
+.my-node-exit {
+  opacity: 1;
+
+}
+.my-node-exit-active {
+  opacity: 0;
+  transition: all 900ms;
 }

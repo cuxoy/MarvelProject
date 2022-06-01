@@ -1,4 +1,4 @@
-import "./singleComic.scss";
+import "../singleComic/singleComic.scss";
 import useMarvelService from "../../services/MarvelService";
 import ErrorMassage from "../errorMassage/ErrorMassage";
 import { Triangle } from "react-loader-spinner";
@@ -7,17 +7,17 @@ import { useEffect, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 
 const SingleComic = () => {
-  const { comicsId } = useParams();
-  const { error, loading, getComics, clearError } = useMarvelService();
+  const  charName  = useParams();
+  const { error, loading, getCharacterBySearch, clearError } = useMarvelService();
   const [comics, setComics] = useState(null);
-
+    const char = charName.name.slice(1)
   useEffect(() => {
     onComicsLoading();
-  }, [comicsId]);
+  }, [char]);
 
   const onComicsLoading = () => {
     clearError();
-    getComics(comicsId)
+    getCharacterBySearch(char)
     .then(comicsLoading);
   };
   
@@ -56,12 +56,9 @@ const Viev = ({ comics }) => {
           <div className="single-comic__info">
             <h2 className="single-comic__name">{name}</h2>
             <p className="single-comic__descr">{description}</p>
-            <p className="single-comic__descr">{pages} pages</p>
-            <p className="single-comic__descr">Language: en-us</p>
-            <div className="single-comic__price">{price}</div>
           </div>
-          <Link to="/comics" className="single-comic__back">
-            Back to all
+          <Link to="/" className="single-comic__back">
+            Back to main
           </Link>
         </>
     );
